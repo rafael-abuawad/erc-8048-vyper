@@ -119,14 +119,10 @@ For IERC8048 with a single declared function, the interface identifier equals th
 
 ## Reference
 
-- [EIP-8048](https://eips.ethereum.org/EIPS/eip-8048) (IERC8048 naming)
+- [EIP-8048](https://eips.ethereum.org/EIPS/eip-8048)
 - [EIP-165: Standard Interface Detection](https://eips.ethereum.org/EIPS/eip-165)
 - [Moccasin documentation](https://cyfrin.github.io/moccasin)
 - [Vyper documentation](https://docs.vyperlang.org/)
-
-### Documentation style
-
-In this repository’s prose, use **onchain** (one word), not *on-chain*, by analogy with *online*.
 
 ## License & disclaimer
 
