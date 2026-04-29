@@ -2,7 +2,7 @@
 """
 @title ERC-8048 Interface Definition
 @custom:contract-name IERC8048
-@license MIT
+@license GNU Affero General Public License v3.0 only
 @author rafael-abuawad
 @notice Optional onchain metadata for token registries (ERC-721, ERC-1155, ERC-6909).
         Defines a string-key, bytes-value store: `getMetadata` returns arbitrary bytes
