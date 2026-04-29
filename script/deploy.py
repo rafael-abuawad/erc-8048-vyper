@@ -6,7 +6,7 @@ def deploy() -> VyperContract:
     c: VyperContract = erc8048_mock.deploy(
         "Mock", "MOCK", "https://mock.com", "Mock", "1.0"
     )
-    print("Deployed erc8084:", c.address)
+    print("Deployed erc8048:", c.address)
     return c
 
 

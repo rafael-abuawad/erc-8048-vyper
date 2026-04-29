@@ -68,12 +68,12 @@ from ..src.interfaces import IERC8048
 implements: IERC8048
 
 
-from ..src import erc8084
-initializes: erc8084
+from ..src import erc8048
+initializes: erc8048
 exports: (
-    erc8084.metadata,
-    erc8084.setMetadata,
-    erc8084.setKeys,
+    erc8048.metadata,
+    erc8048.setMetadata,
+    erc8048.setKeys,
 )
 
 
@@ -84,8 +84,8 @@ _SUPPORTED_INTERFACES: constant(bytes4[8]) = [
     erc721._SUPPORTED_INTERFACES[3],
     erc721._SUPPORTED_INTERFACES[4],
     erc721._SUPPORTED_INTERFACES[5],
-    erc8084._SUPPORTED_INTERFACES[0],
-    erc8084._SUPPORTED_INTERFACES[1],
+    erc8048._SUPPORTED_INTERFACES[0],
+    erc8048._SUPPORTED_INTERFACES[1],
 ]
 
 

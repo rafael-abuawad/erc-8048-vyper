@@ -25,12 +25,12 @@ def test_supportsinterface_includes_erc8048(erc8048_mock_contract):
 
 def test_setmetadata_before_setkeys_reverts(erc8048_mock_contract, alice):
     erc8048_mock_contract.freeMint(alice, 1)
-    with boa.reverts("erc8084: no keys set for token"):
+    with boa.reverts("erc8048: no keys set for token"):
         erc8048_mock_contract.setMetadata(0, [b"x"])
 
 
 def test_setmetadata_length_mismatch_reverts(erc8048_mock_contract, alice):
     erc8048_mock_contract.freeMint(alice, 1)
     erc8048_mock_contract.setKeys(["only"])
-    with boa.reverts("erc8084: must be the same length"):
+    with boa.reverts("erc8048: must be the same length"):
         erc8048_mock_contract.setMetadata(0, [b"a", b"b"])

@@ -1,7 +1,7 @@
 import boa
 import pytest
 
-from src import erc8084
+from src import erc8048
 from mocks import erc8048_mock
 
 
@@ -13,8 +13,8 @@ def alice():
 
 
 @pytest.fixture
-def erc8084_contract():
-    return erc8084.deploy()
+def erc8048_contract():
+    return erc8048.deploy()
 
 
 @pytest.fixture

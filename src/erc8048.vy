@@ -1,12 +1,12 @@
 # pragma version ~=0.4.3
 # pragma nonreentrancy off
 """
-@title Modern and Gas-Efficient ERC-8084 Implementation
-@custom:contract-name erc8084
+@title Modern and Gas-Efficient ERC-8048 Implementation
+@custom:contract-name erc8048
 @license GNU Affero General Public License v3.0 only
 @author rafael-abuawad
-@notice ERC-8084 onchain metadata extension
-        (https://eips.ethereum.org/EIPS/eip-8084).
+@notice ERC-8048 onchain metadata extension
+        (https://eips.ethereum.org/EIPS/eip-8048).
 """
 
 from ethereum.ercs import IERC165
@@ -17,7 +17,7 @@ from interfaces import IERC8048
 implements: IERC8048
 
 
-# @dev ERC-8084 Keys: emitted when the keys are set.
+# @dev ERC-8048 Keys: emitted when the keys are set.
 event KeysSet:
     _keys: DynArray[String[64], 12]
 
@@ -68,8 +68,8 @@ def _set_metadata(
     @param data The data to set the metadata for.
     """
     keys: DynArray[String[64], _MAX_METADATA_KEYS] = self.metadataKeys
-    assert len(keys) != 0, "erc8084: no keys set for token"
-    assert len(keys) == len(data), "erc8084: must be the same length"
+    assert len(keys) != 0, "erc8048: no keys set for token"
+    assert len(keys) == len(data), "erc8048: must be the same length"
 
     for i: uint256 in range(len(keys), bound=_MAX_METADATA_KEYS):
         key: String[64] = keys[i]
