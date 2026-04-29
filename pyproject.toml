@@ -1,0 +1,15 @@
+[project]
+name = "erc8048"
+version = "0.1.0"
+description = "Vyper ERC-8048 implementation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mamushi>=0.1.0",
+    "moccasin>=0.4.3",
+    "ruff>=0.15.12",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [".", "src", "lib/pypi"]
+testpaths = ["tests"]

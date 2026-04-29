@@ -1,0 +1,38 @@
+# pragma version ~=0.4.3
+"""
+@title ERC-8048 Interface Definition
+@custom:contract-name IERC8048
+@license MIT
+@author rafael-abuawad
+@notice Optional onchain metadata for token registries (ERC-721, ERC-1155, ERC-6909).
+        Defines a string-key, bytes-value store: `getMetadata` returns arbitrary bytes
+        for a `tokenId` and key. Implementations MUST emit `MetadataSet` whenever metadata
+        is written; keys MAY use parameterized forms per ERC-8119. Optional Diamond Storage
+        uses namespace `erc8048.onchain.metadata.storage` (ERC-8042). Full specification:
+        https://eips.ethereum.org/EIPS/eip-8048
+
+        On how to use interfaces in Vyper, please visit:
+        https://vyper.readthedocs.io/en/latest/interfaces.html#interfaces.
+"""
+
+# @dev ERC-8048: emitted when metadata is set for a token. Indexed `tokenId` and
+# `indexedKey` enable efficient log filtering; unindexed `key` preserves the full key.
+event MetadataSet:
+    _tokenId: indexed(uint256)
+    _indexedKey: indexed(String[64])
+    _key: String[64]
+    _value: Bytes[256]
+
+
+@external
+@view
+def metadata(tokenId: uint256, key: String[64]) -> Bytes[256]:
+    """
+    @dev ERC-8048: returns the onchain metadata value for `tokenId` and `key` as `bytes`
+         (empty if unset). Implementations MAY also expose `setMetadata` with their own
+         access control.
+    @param tokenId The registry token ID whose metadata is read.
+    @param key The metadata key (UTF-8 string; MAY be parameterized per ERC-8119).
+    @return The stored metadata bytes for that key.
+    """
+    ...
