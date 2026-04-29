@@ -9,18 +9,32 @@
 
 # ERC-8048 Vyper
 
-Gas-efficient Vyper module for **[EIP-8048](https://eips.ethereum.org/EIPS/eip-8048)** onchain metadata extension: configurable string keys (up to 12), per-token `bytes` values, and `MetadataSet` events as defined by [`IERC8048`](src/interfaces/IERC8048.vyi). The implementation in this repository is **[`src/erc8048.vy`](src/erc8048.vy)**—a single module that implements [EIP-165](https://eips.ethereum.org/EIPS/eip-165) and IERC8048 (EIP-8048). Optional fields, access control, and token-existence checks are left to integrators; see NatSpec on the contract.
+**At a glance**
 
-The interface file uses the **IERC8048** / **EIP-8048** naming from the ERC family; the primary Vyper module filename and header follow **ERC-8048** / **EIP-8048**.
+- [EIP-8048](https://eips.ethereum.org/EIPS/eip-8048) onchain metadata extension for token registries: configurable string keys (up to 12), per-token `bytes` values, and `MetadataSet` events as defined by [`IERC8048`](src/interfaces/IERC8048.vyi).
+- Core implementation: **[`src/erc8048.vy`](src/erc8048.vy)** — [EIP-165](https://eips.ethereum.org/EIPS/eip-165) plus IERC8048.
+- **[`mocks/erc8048_mock.vy`](mocks/erc8048_mock.vy)** composes ERC-721 (snekmate) with the extension for deploy scripts and tests.
+- Optional fields, access control, and token-existence checks are left to integrators; see NatSpec on [`src/erc8048.vy`](src/erc8048.vy).
+
+This repository is a gas-efficient Vyper module for that standard: one module that implements IERC8048 and advertises the correct interface IDs.
+
+### Naming
+
+The interface file follows **IERC8048** / **EIP-8048** naming from the ERC family; the primary Vyper module filename and header use **ERC-8048** / **EIP-8048**.
 
 ## Contracts
 
 | Path | Description |
 |------|-------------|
-| [`src/erc8048.vy`](src/erc8048.vy) | ERC-8048 implementation: IERC165, IERC8048, `setKeys` / `setMetadata`, `KeysSet`, public `metadata` / `metadataKeys`; interface IDs in `_SUPPORTED_INTERFACES` |
+| [`src/erc8048.vy`](src/erc8048.vy) | Core ERC-8048 module: `IERC165`, `IERC8048`; interface IDs in `_SUPPORTED_INTERFACES` |
 | [`src/interfaces/IERC8048.vyi`](src/interfaces/IERC8048.vyi) | IERC8048 interface (`metadata`, `MetadataSet` event) |
 | [`mocks/erc8048_mock.vy`](mocks/erc8048_mock.vy) | Mock that composes ERC-721 (snekmate) with the extension; used by [`script/deploy.py`](script/deploy.py) and [`tests/test_erc8048_mock.py`](tests/test_erc8048_mock.py) |
 | [`moccasin.toml`](moccasin.toml) | Moccasin project config (snekmate dependency, networks) |
+
+API surface for [`src/erc8048.vy`](src/erc8048.vy):
+
+- `setKeys`, `setMetadata`, `KeysSet`
+- Public `metadata`, `metadataKeys`
 
 **Standards:** [EIP-165](https://eips.ethereum.org/EIPS/eip-165) via `IERC165`; IERC8048 / EIP-8048 as declared in `_SUPPORTED_INTERFACES` in [`src/erc8048.vy`](src/erc8048.vy) (`0x01ffc9a7`, `0xdf670be1`).
 
@@ -32,14 +46,16 @@ The interface file uses the **IERC8048** / **EIP-8048** naming from the ERC fami
 - [snekmate](https://github.com/pcaversaccio/snekmate) (`mox install` / [moccasin.toml](moccasin.toml)—used by the mock, not by the bare [`erc8048`](src/erc8048.vy) module)
 - [Titanoboa](https://github.com/vyperlang/titanoboa) (`boa`, test backend via Moccasin)
 
-## Install
+## Quick start
+
+### Install
 
 ```bash
 uv tool install moccasin
 mox install
 ```
 
-## Build
+### Build
 
 ```bash
 mox compile
@@ -47,7 +63,7 @@ mox compile
 
 Artifacts are written under `out/`.
 
-## Test
+### Test
 
 ```bash
 mox test
@@ -63,7 +79,9 @@ mox run deploy
 
 [`script/deploy.py`](script/deploy.py) deploys the mock with:
 
-`erc8048_mock.deploy("Mock", "MOCK", "https://mock.com", "Mock", "1.0")`
+```python
+erc8048_mock.deploy("Mock", "MOCK", "https://mock.com", "Mock", "1.0")
+```
 
 For a live network, add or use a `[networks.*]` section in [`moccasin.toml`](moccasin.toml) and run:
 
@@ -73,7 +91,9 @@ mox run deploy --network <network-name> --account <keystore>
 
 Production deployment of only [`src/erc8048.vy`](src/erc8048.vy) uses your own constructor / initializer pattern (the bare module has no snekmate dependency).
 
-## EIP-165 interface identifiers
+## EIP-165 (interface IDs)
+
+*Skip this section if you only need build, test, or deploy.*
 
 [`supportsInterface(bytes4)`](https://eips.ethereum.org/EIPS/eip-165) returns **true** for each interface identifier the contract implements. Per [EIP-165](https://eips.ethereum.org/EIPS/eip-165), an interface identifier is the bitwise XOR of the [function selectors](https://docs.soliditylang.org/en/latest/abi-spec.html#function-selector) of every **function** declared in that interface.
 
@@ -102,8 +122,12 @@ For IERC8048 with a single declared function, the interface identifier equals th
 - [EIP-8048](https://eips.ethereum.org/EIPS/eip-8048) (IERC8048 naming)
 - [EIP-165: Standard Interface Detection](https://eips.ethereum.org/EIPS/eip-165)
 - [Moccasin documentation](https://cyfrin.github.io/moccasin)
-- [Vyper documentation](https://vyper.readthedocs.io/)
+- [Vyper documentation](https://docs.vyperlang.org/)
 
----
+### Documentation style
+
+In this repository’s prose, use **onchain** (one word), not *on-chain*, by analogy with *online*.
+
+## License & disclaimer
 
 *This is an unaudited reference implementation for educational and development purposes. It is not production-ready software. Use at your own risk. The authors accept no liability for losses or damages arising from its use or deployment. Contract headers license the code under GNU Affero General Public License v3.0 only.*
