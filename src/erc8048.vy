@@ -17,10 +17,14 @@ from interfaces import IERC8048
 implements: IERC8048
 
 
+from snekmate.auth import ownable
+uses: ownable
+exports: ownable.__interface__
+
+
 # @dev ERC-8048 Keys: emitted when the keys are set.
 event KeysSet:
-    _keys: DynArray[String[64], 12]
-
+    _keys: DynArray[String[64], _MAX_METADATA_KEYS]
 
 
 _MAX_METADATA_KEYS: constant(uint256) = 12
@@ -34,6 +38,19 @@ metadata: public(HashMap[uint256, HashMap[String[64], Bytes[256]]])
 metadataKeys: public(DynArray[String[64], _MAX_METADATA_KEYS])
 
 
+@deploy
+@payable
+def __init__():
+    """
+    @dev To omit the opcodes for checking the `msg.value`
+         in the creation-time EVM bytecode, the constructor
+         is declared as `payable`.
+    @notice The `owner` role will be assigned to
+            the `msg.sender`.
+    """
+    pass
+
+
 @external
 def setMetadata(
     token_id: uint256, data: DynArray[Bytes[256], _MAX_METADATA_KEYS]
@@ -44,6 +61,7 @@ def setMetadata(
     @param token_id The token ID to set the metadata for.
     @param data The data to set the metadata for.
     """
+    ownable._check_owner()
     self._set_metadata(token_id, data)
 
 
@@ -53,6 +71,7 @@ def setKeys(keys: DynArray[String[64], _MAX_METADATA_KEYS]):
     @dev Sets the keys for a token.
     @param keys The keys to set for the token.
     """
+    ownable._check_owner()
     self.metadataKeys = keys
     log KeysSet(_keys=keys)
 

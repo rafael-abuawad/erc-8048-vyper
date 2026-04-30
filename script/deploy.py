@@ -3,9 +3,7 @@ from mocks import erc8048_mock
 
 
 def deploy() -> VyperContract:
-    c: VyperContract = erc8048_mock.deploy(
-        "Mock", "MOCK", "https://mock.com", "Mock", "1.0"
-    )
+    c: VyperContract = erc8048_mock.deploy()
     print("Deployed erc8048:", c.address)
     return c
 

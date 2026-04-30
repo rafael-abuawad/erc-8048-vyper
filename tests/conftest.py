@@ -1,7 +1,5 @@
 import boa
 import pytest
-
-from src import erc8048
 from mocks import erc8048_mock
 
 
@@ -13,16 +11,13 @@ def alice():
 
 
 @pytest.fixture
-def erc8048_contract():
-    return erc8048.deploy()
+def bob():
+    addr = boa.env.generate_address(alias="bob")
+    boa.env.set_balance(addr, 10**18)
+    return addr
 
 
 @pytest.fixture
-def erc8048_mock_contract():
-    return erc8048_mock.deploy(
-        "TestNFT",
-        "TNFT",
-        "https://example.com/metadata/",
-        "TestNFT",
-        "1",
-    )
+def erc8048_contract(alice):
+    with boa.env.prank(alice):
+        return erc8048_mock.deploy()

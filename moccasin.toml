@@ -18,7 +18,7 @@ url = "https://ethereum-sepolia-rpc.publicnode.com"
 chain_id = 11155111
 
 [networks.megaeth]
-url = "https://mainnet.megaeth.com/rpc"
+url = "wss://mainnet.megaeth.com/ws"
 chain_id = 4326 
 save_to_db = true
 
